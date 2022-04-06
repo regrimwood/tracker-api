@@ -21,9 +21,9 @@ Here are the steps for my setup.
 
 `npm install` - install dependencies
 
-`npm start` - start dev server on localhost:5001/api
+`npm start` - start dev server on localhost:5001/api (either comment out the auth0 code in app.js or add your auth0 environment variables to the .env for local testing.)
 
-`docker-compose up` - start a postgres database in a docker container for testing.  
+`docker-compose up` - start a postgres database in a docker container for testing.
 
 ### Deployment to Heroku
 
