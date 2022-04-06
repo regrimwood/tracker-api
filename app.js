@@ -9,7 +9,7 @@ const swaggerUi = require("swagger-ui-express");
 const router = require("./router");
 
 const swaggerDocument = yaml.load(
-  fs.readFileSync(path.join(__dirname, "./apispec.yaml"), "utf8")
+  fs.readFileSync(path.join(__dirname, "apispec.yml"), "utf8")
 );
 
 // middleware
