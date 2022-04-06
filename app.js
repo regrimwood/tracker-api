@@ -15,9 +15,9 @@ const swaggerDocument = yaml.load(
 // middleware
 app.use(cors());
 app.use(express.json());
-app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // routes
 app.use("/api", router);
+app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 module.exports = app;
