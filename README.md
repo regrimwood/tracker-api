@@ -5,8 +5,8 @@ This is a simple API design for use with a PostgreSQL database and [Auth0](https
 ## Why I made this
 
 **The scenario:** I want to do mood tracking.  
-**The problem:** I hate journalling and I can't be bothered to open a mood tracking app and log something every day.  
-**The hypothesis:** iOS shortcuts can do many things, like prompting to choose from a list. Can it send http requests??  
+**The problem:** I hate journalling and I can't be bothered to open a mood tracking app and navigate through it to log something every day.  
+**The hypothesis:** iOS shortcuts can do many things, like prompting to choose from a list. Can it automate sending http requests??  
 **The answer:** [Yes it can](https://support.apple.com/en-nz/guide/shortcuts/apd2d448b2de/ios). It can also parse JSON! 
 
 So, basically I made this API because I'm lazy.
@@ -49,7 +49,7 @@ In a terminal in the root directory:
 
 ### Connect Auth0
 
-For safety!! I added auth to this app from auth0. I'm pretty sure the free trial period is only related to the number of users of an app so it should be all good.
+For safety!! I added auth config to this API for Auth0. A single user is covered by the free trial.
 
 1. Create an [Auth0](https://auth0.com/) account
 2. Create a new tenant
@@ -64,18 +64,21 @@ For safety!! I added auth to this app from auth0. I'm pretty sure the free trial
 
 1. Make a new shortcut.
 2. Go to your machine-to-machine application in Auth0 and click 'Settings'. You will be using the credentials under 'Basic information'.
-3. Add action: Get contents of URL. For URL, put the Domain from your machine-to-machine application but add /oath/token
-4. Click the little sideways arrow after the url. Change the method to POST. Add a JSON request body with these key-values, using values from your machine-to-machine application and auth0 api:
+3. Add action: Get Contents of URL. For `URL`, put the Domain URL from your machine-to-machine application but add `/oath/token`.
+4. Click the little sideways arrow after the url. Change the method to `POST`. Add 4 new Text fields under `Request Body` (make sure the option to the right of `Request Body` says `JSON`) with these key-values from your Auth0 machine-to-machine application and Auth0 api:
     - client_id: (Client ID)
     - client_secret: (Client Secret)
-    - audience: (the identifier from the auth0 API that you made)
+    - audience: (the identifier from the Auth0 API that you made)
     - grant_type: client_credentials
 5. Add action: Get Dictionary Value. Populate it as: Get `Value` for `access_token` in `Contents of URL` (linked to the action above it).
-6. Add action: List. Populate the list with some preset moods that you want to track.
-7. Add action: Choose from List (linked to the action above it). 
-8. Add action: Get Contents of URL. For the URL, put https://(your-heroku-app).herokuapp.com/api?mood= Then click Chosen Item from your autocorrect bar and it should append the chosen item from the List to the URL.
-9. Add action: Dismiss Siri and Continue. That's it!
-10. Now: close your shortcut and go to the automations menu. Create a new automation with the action Run Shortcut for your shortcut. Choose when you want to be prompted! Now you will be prompted for your daily mood. The mood will be logged with just one click.
+6. Add action: List. Populate the list with some presets for what you want to track.
+7. Add action: Choose from `List` (List being a variable linked to the action above it). 
+8. Add action: Get Contents of URL. For the URL, put `https://(your-heroku-app).herokuapp.com/api?mood=` Then click `Chosen Item` from your autocorrect bar and it should append the chosen item from the List to the URL.  
+9. Click the little arrow after the URL and change method to `POST`. Add a new header, put 'authorization' for the `Key` field and 'Bearer (Dictionary Value)', selecting the `Dictionary Value` variable from your autocorrect bar, for the `text` field.
+
+Depending on how you want to use this, you could
+- create an automation that prompts you with the list once per day and uses your choice as input to the shortcut (instead of the list being in the shortcut itself) - I do this and it works. The notification persists saying 'Tap to respond' so I can answer later if I'm not on my phone at the time it runs.
+- add it to the homescreen so that you can press the button to choose from the list
   
 ## What now???
   
