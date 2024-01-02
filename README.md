@@ -3,17 +3,15 @@
 This is a simple API design for use with a PostgreSQL database and [Auth0](https://auth0.com/). 
 
 ## Why I made this
-
-**The scenario:** I want to do mood tracking.  
-**The problem:** I hate journalling and I can't be bothered to open a mood tracking app and navigate through it to log something every day.  
-**The hypothesis:** iOS shortcuts can do many things, like prompting to choose from a list. Can it automate sending http requests??  
-**The answer:** [Yes it can](https://support.apple.com/en-nz/guide/shortcuts/apd2d448b2de/ios). It can also parse JSON! 
-
-So, basically I made this API because I'm lazy.
+ 
+**The problem:** Having to open a mood tracking app and navigate through it to log something every day is tedious. How can I track mood daily, but with as few clicks as possible?  
+**The hypothesis:** iOS shortcuts can do many things, like prompting to choose from a list. Can it automate sending http requests?  
+**The solution:** [Yes it can](https://support.apple.com/en-nz/guide/shortcuts/apd2d448b2de/ios). It can also parse JSON!  
+**The result:** Mood tracking with a single click!
 
 ## How I use it
 
-Personally I host a copy on Heroku free hosting with Heroku Postgres. I integrate it with Apple Shortcuts so I can log a mood daily with just one tap.
+Back when Heroku was free, I hosted it with Heroku Postgres. I also integrated it with Apple Shortcuts so I can log a mood daily with just one tap.
 
 Here are the steps for my setup.
 
@@ -49,7 +47,7 @@ In a terminal in the root directory:
 
 ### Connect Auth0
 
-For safety!! I added auth config to this API for Auth0. A single user is covered by the free trial.
+I added auth config to this API for Auth0. A single user is covered by the free trial.
 
 1. Create an [Auth0](https://auth0.com/) account
 2. Create a new tenant
@@ -65,7 +63,7 @@ For safety!! I added auth config to this API for Auth0. A single user is covered
 1. Make a new shortcut.
 2. Go to your machine-to-machine application in Auth0 and click 'Settings'. You will be using the credentials under 'Basic information'.
 3. Add action: Get Contents of URL. For `URL`, put the Domain URL from your machine-to-machine application but add `/oath/token`.
-4. Click the little sideways arrow after the url. Change the method to `POST`. Add 4 new Text fields under `Request Body` (make sure the option to the right of `Request Body` says `JSON`) with these key-values from your Auth0 machine-to-machine application and Auth0 api:
+4. Click the sideways arrow after the url. Change the method to `POST`. Add 4 new Text fields under `Request Body` (make sure the option to the right of `Request Body` says `JSON`) with these key-values from your Auth0 machine-to-machine application and Auth0 api:
     - client_id: (Client ID)
     - client_secret: (Client Secret)
     - audience: (the identifier from the Auth0 API that you made)
@@ -77,9 +75,9 @@ For safety!! I added auth config to this API for Auth0. A single user is covered
 9. Click the little arrow after the URL and change method to `POST`. Add a new header, put 'authorization' for the `Key` field and 'Bearer (Dictionary Value)', selecting the `Dictionary Value` variable from your autocorrect bar, for the `text` field.
 
 Depending on how you want to use this, you could
-- create an automation that prompts you with the list once per day and uses your choice as input to the shortcut (instead of the list being in the shortcut itself) - I do this and it works. The notification persists saying 'Tap to respond' so I can answer later if I'm not on my phone at the time it runs.
+- create an automation that prompts you with the list once per day and uses your choice as input to the shortcut (instead of the list being in the shortcut itself). The notification persists saying 'Tap to respond' so I can answer later if I'm not on my phone at the time it runs.
 - add it to the homescreen so that you can press the button to choose from the list
   
-## What now???
-  
-Once you have enough data... Make an app to query and analyse your data 🧐
+## What now??
+
+Data analysis time~!
